@@ -1,0 +1,15 @@
+/*
+Action types dictionary
+*/
+
+export const GET_USERS = "GET_USERS";
+export const LOADING_USERS = "LOADING_USERS";
+export const GET_USERS_ERROR = "GET_USERS_ERROR";
+
+export const SAVE_USER_SUCCESS = "SAVE_USER_SUCCESS"
+export const SAVE_USER_LOADING = "SAVE_USER"
+export const SAVE_USER_ERROR = "SAVE_USER_ERROR"
+
+export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS"
+export const DELETE_USER_LOADING = "DELETE_USER_LOADING"
+export const DELETE_USER_ERROR = "DELETE_USER_ERROR"
