@@ -4,6 +4,15 @@ This is the repo for the solution for the PVH code challenge.
 
 The solution consists on two small projects.
 
+### Start
+After cloning the project, you have to install the dependencies on both projects. 
+
+Execute the following in the mobile and api folders
+
+```
+npm install
+```
+
 ## Api
 This is the backend built in node js using express.
 
