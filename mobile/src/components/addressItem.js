@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
+import PropTypes from 'prop-types';
+
 export default class AddressItem extends Component {
     constructor(props) {
         super(props);
@@ -10,7 +12,6 @@ export default class AddressItem extends Component {
 
     render() {
         let { address } = this.props
-        console.log("Rendering address item", address)
         return (
             <View style={styles.row}>
                 <TouchableOpacity
@@ -43,3 +44,9 @@ const styles = StyleSheet.create({
         marginTop: 4
     }
 })
+
+AddressItem.propTypes = {
+    address: PropTypes.object.isRequired,
+    onPress: PropTypes.func,
+    onDelete: PropTypes.func
+}

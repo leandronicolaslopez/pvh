@@ -12,17 +12,28 @@ export default class AddAddress extends Component {
             street: '',
             number: '',
             city: '',
-            zipcode: ''
+            zipcode: '',
+            touchedStreet: false,
+            touchedNumber: false,
+            displayAllValidations: false,
         }, addressParam);
 
         this.onBtnPressed = this.onBtnPressed.bind(this)
+        this.validateFields = this.validateFields.bind(this)
+    }
+
+    validateFields = () => {
+        return this.state.street && this.state.number
     }
 
     onBtnPressed = () => {
-        let address = this.state
-        console.log("Returning address to userform", address)
-        this.onAddressSubmit(address)
-        this.props.navigation.goBack()
+        this.setState({ displayAllValidations: true })
+
+        if (this.validateFields()) {
+            let address = this.state
+            this.onAddressSubmit(address)
+            this.props.navigation.goBack()
+        }
     }
 
     render() {
@@ -32,17 +43,33 @@ export default class AddAddress extends Component {
                     <View style={styles.field}>
                         <Text>Street</Text>
                         <TextInput
+                            onBlur={() => { this.setState({ touchedStreet: true }) }}
                             onChangeText={(street) => this.setState({ street })}
                             value={this.state.street}
                             style={styles.text} />
+                        {
+                            ((this.state.displayAllValidations || this.state.touchedStreet)
+                                && !this.state.street) ?
+                                <Text style={styles.error}>Street is required</Text>
+                                : null
+                        }
                     </View>
 
                     <View style={styles.field}>
                         <Text>Number</Text>
                         <TextInput
+                            onBlur={() => { this.setState({ touchedNumber: true }) }}
+                            keyboardType="number-pad"
+                            returnKeyType='done'
                             onChangeText={(number) => this.setState({ number })}
                             value={this.state.number}
                             style={styles.text} />
+                        {
+                            ((this.state.displayAllValidations || this.state.touchedNumber)
+                                && !this.state.number) ?
+                                <Text style={styles.error}>Number is required</Text>
+                                : null
+                        }
                     </View>
 
                     <View style={styles.field}>
@@ -64,7 +91,7 @@ export default class AddAddress extends Component {
                 </ScrollView>
 
                 <TouchableOpacity style={styles.button} onPress={this.onBtnPressed}>
-                    <Text style={{ color: '#000' }}>
+                    <Text style={styles.buttonText}>
                         SAVE AND RETURN
                             </Text>
                 </TouchableOpacity>
@@ -83,5 +110,7 @@ const styles = StyleSheet.create({
     field: {
         marginTop: 12
     },
-    text: { width: '100%', height: 40, padding: 8, borderColor: '#ddd', borderWidth: 1 }
+    text: { width: '100%', height: 40, padding: 8, borderColor: '#ddd', borderWidth: 1 },
+    buttonText: { color: '#000' },
+    error: { color: 'red' }
 })

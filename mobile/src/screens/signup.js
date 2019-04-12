@@ -1,11 +1,8 @@
 import React from "react";
 import {
-    Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator,
-    ToastAndroid, Alert
+    Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator, Alert
 } from "react-native";
-import Input from "../components/Input";
-import UserForm from "../components/userForm";
-import UserApi from '../api/userApi'
+import UserForm, { validateUser } from "../components/userForm";
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -19,17 +16,24 @@ class Signup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            user: {}
+            user: {},
+            validateFields: false
         }
         this.submitChanges = this.submitChanges.bind(this)
     }
 
     submitChanges = () => {
-        this.props.userActions.signUpUser(this.state.user)
-            .then(() => {
-                Alert.alert('User saved')
-                this.props.navigation.goBack();
-            })
+        this.setState({
+            validateFields: true
+        })
+        
+        if (validateUser(this.state.user)) {
+            this.props.userActions.signUpUser(this.state.user)
+                .then(() => {
+                    Alert.alert('User saved')
+                    this.props.navigation.goBack();
+                })
+        }
     }
 
     render() {
@@ -37,6 +41,7 @@ class Signup extends React.Component {
             <SafeAreaView style={{ flex: 1, margin: 20 }}>
                 <ScrollView style={styles.container}>
                     <UserForm
+                        displayValidations={this.state.validateFields}
                         navigation={this.props.navigation}
                         user={this.state.user}
                         onValueChange={(user) => this.setState({ user })}

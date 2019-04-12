@@ -17,16 +17,23 @@ export default class ApiBase {
 
         console.log("Calling", url)
         return new Promise((resolve, reject) => {
+            
+            //settimeout is set to simulate api delay
             setTimeout(() => {
                 fetch(url, options)
-                    .then((response) => response.json())
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw Error(response.statusText);
+                        }
+                        return response.json()
+                    })
                     .then((responseJson) => {
                         resolve(responseJson)
                     })
                     .catch((error) => {
                         reject(error)
                     });
-            }, 500)
+            }, 250)
         });
     }
 }

@@ -10,11 +10,11 @@ export default (state = initialState.users, action) => {
     case types.GET_USERS_ERROR:
       return { data: [], loading: false, error: action.message };
     case types.SAVE_USER_LOADING:
-      return { saveLoading: true, saveError: '', ...state };
+      return { ...state, saveLoading: true, saveError: '',  };
     case types.SAVE_USER_SUCCESS:
-      return { saveLoading: false, saveError: '', saveSuccess: true, ...state };
+      return { ...state, saveLoading: false, saveError: '', saveSuccess: true };
     case types.SAVE_USER_ERROR:
-      return { saveLoading: false, saveError: action.message, ...state };
+      return { ...state, saveLoading: false, saveError: action.message, };
     default:
       return state;
   }

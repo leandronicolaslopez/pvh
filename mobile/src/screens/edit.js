@@ -1,8 +1,6 @@
 import React from "react";
 import { SafeAreaView, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
-import Input from "../components/Input";
-import UserForm from "../components/userForm";
-import UserApi from '../api/userApi'
+import UserForm, { validateUser } from "../components/userForm";
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -17,17 +15,24 @@ class Edit extends React.Component {
         super(props)
 
         this.state = {
-            user: props.navigation.state.params.user
+            user: props.navigation.state.params.user,
+            validateFields: false
         }
         this.submitChanges = this.submitChanges.bind(this)
     }
 
     submitChanges = () => {
-        this.props.userActions.editUser(this.state.user)
-            .then(() => {
-                Alert.alert('User saved')
-                this.props.navigation.goBack();
-            })
+        this.setState({
+            validateFields: true
+        })
+
+        if (validateUser(this.state.user)) {
+            this.props.userActions.editUser(this.state.user)
+                .then(() => {
+                    Alert.alert('User saved')
+                    this.props.navigation.goBack();
+                })
+        }
     }
 
     render() {
@@ -36,6 +41,7 @@ class Edit extends React.Component {
                 <ScrollView style={styles.container}>
 
                     <UserForm
+                        displayValidations={this.state.validateFields}
                         navigation={this.props.navigation}
                         user={this.state.user}
                         onValueChange={(user) => this.setState({
@@ -51,7 +57,7 @@ class Edit extends React.Component {
                         <ActivityIndicator />
                         :
                         <TouchableOpacity style={styles.button} onPress={this.submitChanges}>
-                            <Text style={{ color: '#000' }}>
+                            <Text style={styles.buttonText}>
                                 SAVE
                             </Text>
                         </TouchableOpacity>
@@ -66,6 +72,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     button: { borderRadius: 8, height: 40, backgroundColor: '#CDD6E3', justifyContent: 'center', alignItems: 'center' },
+    buttonText: { color: '#000' },
     field: {
         marginTop: 12
     },

@@ -21,7 +21,7 @@ export default {
           })
           .catch((error) => {
             dispatch({ type: SAVE_USER_ERROR, message: error.message });
-            resolve();
+            reject();
           });
       })
     )
@@ -37,7 +37,7 @@ export default {
           })
           .catch((error) => {
             dispatch({ type: SAVE_USER_ERROR, message: error.message });
-            resolve();
+            reject();
           });
       })
     )
@@ -60,7 +60,6 @@ export default {
 }
 
 getAllUsers = (dispatch, resolve) => {
-  console.log("Getting all users")
   userApi.getAll()
     .then((users) => {
       dispatch({ type: GET_USERS, users });
