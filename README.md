@@ -27,7 +27,7 @@ This is the react native project. In order for it to work, the api needs to be r
 
 The app consists in three small screens: List of users, edit/create users and edit/create user address.
 
-The app is hooked up to redux, where the list of users is stored as the app state in the root of the app. The users list in redux will now be updated every time the user updates or creates new users, or through the pull-to-refresh feature in the list screen.
+The app is hooked up to redux, where the list of users is stored as the app state in the root of the app. After that, the users list in redux will be updated every time the user updates or creates new users, or through the pull-to-refresh feature in the list screen.
 
 ### Validations:
 The validations are performed individually to each field when it is focused and then focused out or to the whole screen when the submit button is pressed.
